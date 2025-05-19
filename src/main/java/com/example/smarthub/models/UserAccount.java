@@ -1,11 +1,12 @@
 package com.example.smarthub.models;
 
+import com.example.smarthub.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.management.relation.Role;
+
 
 @Entity
 @Data
