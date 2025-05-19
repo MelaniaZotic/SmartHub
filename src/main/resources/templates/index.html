@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartCampus - Home</title>
+</head>
+<body>
+<h1>Welcome to SmartCampus</h1>
+<p>Select a section to manage:</p>
+
+<ul>
+    <li><a th:href="@{/students}">Manage Students</a></li>
+    <li><a th:href="@{/courses}">Manage Courses</a></li>
+    <li><a th:href="@{/professors}">Manage Professors</a></li>
+    <li><a th:href="@{/enrollments}">Manage Enrollments</a></li>
+    <li><a th:href="@{/grades}">Manage Grades</a></li>
+    <li><a th:href="@{/schedules}">Manage Schedules</a></li>
+    <li><a th:href="@{/exams}">Manage Exams</a></li>
+    <li><a th:href="@{/announcements}">Announcements</a></li>
+</ul>
+</body>
+</html>

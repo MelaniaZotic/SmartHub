@@ -17,7 +17,7 @@ public class Student {
 
     private String name;
     private String email;
-    private String group;
+    private String studentGroup;
     private int year;
     private String specialization;
 
