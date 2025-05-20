@@ -1,0 +1,31 @@
+<!DOCTYPE html> <html xmlns:th="http://www.thymeleaf.org"> <head> <title>Editează Notă</title> </head> <body> <h1>Editează Notă</h1> <form th:action="@{'/grades/edit/' + ${grade.id}}" th:object="${grade}" method="post"> <label>Student:</label> <select th:field="*{student}" required> <option th:each="s : ${students}" th:value="${s}" th:text="${s.name}" th:selected="${s.id == grade.student.id}"> </option> </select><br/>
+    <label>Curs:</label>
+    <select th:field="*{course}" required>
+        <option th:each="c : ${courses}"
+                th:value="${c}"
+                th:text="${c.title}"
+                th:selected="${c.id == grade.course.id}">
+        </option>
+    </select><br/>
+
+    <label>Tip notă:</label>
+    <select th:field="*{type}" required>
+        <option th:each="t : ${types}"
+                th:value="${t}"
+                th:text="${t}"
+                th:selected="${t == grade.type}">
+        </option>
+    </select><br/>
+
+    <label>Valoare:</label>
+    <input type="number" th:field="*{value}" step="0.1" min="1" max="10" required/><br/>
+
+    <label>Dată:</label>
+    <input type="date" th:field="*{date}" required/><br/>
+
+    <button type="submit">Salvează modificările</button>
+
+</form>
+<a th:href="@{/grades}">Înapoi la listă</a>
+
+</body> </html>

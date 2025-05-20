@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Editează curs</title></head>
+<body><h1>Editează curs</h1>
+<form th:action="@{'/courses/edit/' + ${course.id}}" th:object="${course}" method="post"><label>Titlu:</label>
+    <input
+        type="text" th:field="*{title}" required/><br/>
+    <label>Descriere:</label>
+    <input type="text" th:field="*{description}"/><br/>
+
+    <label>Credite:</label>
+    <input type="number" th:field="*{credits}" required/><br/>
+
+    <label>Semestru:</label>
+    <input type="number" th:field="*{semester}" required/><br/>
+
+    <button type="submit">Salvează modificările</button>
+
+</form>
+<a th:href="@{/courses}">Înapoi</a>
+
+</body>
+</html>

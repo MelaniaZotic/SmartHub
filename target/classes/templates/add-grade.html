@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Adaugă Notă</title></head>
+<body><h1>Adaugă Notă</h1>
+<form th:action="@{/grades/add}" th:object="${grade}" method="post"><label>Student:</label> <select
+        th:field="*{student}" required>
+    <option th:each="s : ${students}" th:value="${s}" th:text="${s.name}"></option>
+</select><br/>
+    <label>Curs:</label>
+    <select th:field="*{course}" required>
+        <option th:each="c : ${courses}" th:value="${c}" th:text="${c.title}"></option>
+    </select><br/>
+
+    <label>Tip notă:</label>
+    <select th:field="*{type}" required>
+        <option th:each="t : ${types}" th:value="${t}" th:text="${t}"></option>
+    </select><br/>
+
+    <label>Valoare:</label>
+    <input type="number" th:field="*{value}" step="0.1" min="1" max="10" required/><br/>
+
+    <label>Dată:</label>
+    <input type="date" th:field="*{date}" required/><br/>
+
+    <button type="submit">Salvează</button>
+</form>
+<a th:href="@{/grades}">Înapoi la listă</a>
+
+</body>
+</html>

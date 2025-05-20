@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Note</title></head>
+<body><h1>Note atribuite studenților</h1>
+<a th:href="@{/grades/add}">Adaugă notă</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Student</th>
+        <th>Curs</th>
+        <th>Tip</th>
+        <th>Valoare</th>
+        <th>Dată</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="grade : ${grades}">
+        <td th:text="${grade.id}"></td>
+        <td th:text="${grade.student.name}"></td>
+        <td th:text="${grade.course.title}"></td>
+        <td th:text="${grade.type}"></td>
+        <td th:text="${grade.value}"></td>
+        <td th:text="${grade.date}"></td>
+        <td><a th:href="@{'/grades/edit/' + ${grade.id}}">Editează</a> | <a th:href="@{'/grades/delete/' + ${grade.id}}"
+                                                                            onclick="return confirm('Sigur vrei să ștergi această notă?')">Șterge</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
