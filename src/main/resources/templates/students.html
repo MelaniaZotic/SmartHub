@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Studenți</title>
+    <meta charset="UTF-8">
+</head>
+<body><h1>Lista Studenților</h1>
+<a th:href="@{/students/add}">Adaugă student</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nume</th>
+        <th>Email</th>
+        <th>Grupă</th>
+        <th>An</th>
+        <th>Specializare</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.email}"></td>
+        <td th:text="${student.group}"></td>
+        <td th:text="${student.year}"></td>
+        <td th:text="${student.specialization}"></td>
+        <td><a th:href="@{'/students/edit/' + ${student.id}}">Editează</a> | <a
+                th:href="@{'/students/delete/' + ${student.id}}"
+                onclick="return confirm('Ești sigur că vrei să ștergi acest student?')">Șterge</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Lista cursuri</title>
+    <meta charset="UTF-8">
+</head>
+<body><h1>Cursuri</h1>
+<a th:href="@{/courses/add}">Adaugă curs</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Titlu</th>
+        <th>Credite</th>
+        <th>Semestru</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="course : ${courses}">
+        <td th:text="${course.id}"></td>
+        <td th:text="${course.title}"></td>
+        <td th:text="${course.credits}"></td>
+        <td th:text="${course.semester}"></td>
+        <td><a th:href="@{'/courses/edit/' + ${course.id}}">Editează</a> | <a
+                th:href="@{'/courses/delete/' + ${course.id}}"
+                onclick="return confirm('Ești sigur că vrei să ștergi acest curs?')">Șterge</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

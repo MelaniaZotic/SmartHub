@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Înscrieri</title></head>
+<body><h1>Înscrieri Studenți la Cursuri</h1>
+<a th:href="@{/enrollments/add}">Adaugă înscriere</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Student</th>
+        <th>Curs</th>
+        <th>Dată înscriere</th>
+        <th>Status</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="en : ${enrollments}">
+        <td th:text="${en.id}"></td>
+        <td th:text="${en.student.name}"></td>
+        <td th:text="${en.course.title}"></td>
+        <td th:text="${en.enrollmentDate}"></td>
+        <td th:text="${en.status}"></td>
+        <td><a th:href="@{'/enrollments/edit/' + ${en.id}}">Editează</a> | <a
+                th:href="@{'/enrollments/delete/' + ${en.id}}" onclick="return confirm('Ești sigur?')">Șterge</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

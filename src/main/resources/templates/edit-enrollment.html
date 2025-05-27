@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Editează Înscriere</title></head>
+<body><h1>Editează Înscriere</h1>
+<form th:action="@{'/enrollments/edit/' + ${enrollment.id}}" th:object="${enrollment}" method="post">
+    <label>Student:</label> <select th:field="*{student}" required>
+    <option th:each="s : ${students}" th:value="${s}" th:text="${s.name}"
+            th:selected="${s.id == enrollment.student.id}"></option>
+</select><br/>
+    <label>Curs:</label>
+    <select th:field="*{course}" required>
+        <option th:each="c : ${courses}"
+                th:value="${c}"
+                th:text="${c.title}"
+                th:selected="${c.id == enrollment.course.id}">
+        </option>
+    </select><br/>
+
+    <label>Dată înscriere:</label>
+    <input type="date" th:field="*{enrollmentDate}" required/><br/>
+
+    <label>Status:</label>
+    <select th:field="*{status}">
+        <option th:each="st : ${statuses}" th:value="${st}" th:text="${st}" th:selected="${st == enrollment.status}">
+        </option>
+    </select><br/>
+
+    <button type="submit">Salvează modificările</button>
+</form>
+<a th:href="@{/enrollments}">Înapoi la listă</a>
+
+</body>
+</html>

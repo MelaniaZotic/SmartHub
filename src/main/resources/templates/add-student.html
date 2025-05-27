@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Adaugă Student</title></head>
+<body><h1>Adaugă Student</h1>
+<form th:action="@{/students/add}" th:object="${student}" method="post"><label>Nume:</label> <input type="text"
+                                                                                                    th:field="*{name}"
+                                                                                                    required/><br/>
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" required/><br/>
+
+    <label>Grupă:</label>
+    <input type="text" th:field="*{group}" required/><br/>
+
+    <label>An:</label>
+    <input type="number" th:field="*{year}" required/><br/>
+
+    <label>Specializare:</label>
+    <input type="text" th:field="*{specialization}" required/><br/>
+
+    <button type="submit">Salvează</button>
+</form>
+<a th:href="@{/students}">Înapoi</a>
+
+</body>
+</html>
