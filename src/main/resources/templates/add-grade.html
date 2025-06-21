@@ -1,30 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Adaugă Notă</title></head>
-<body><h1>Adaugă Notă</h1>
-<form th:action="@{/grades/add}" th:object="${grade}" method="post"><label>Student:</label> <select
-        th:field="*{student}" required>
-    <option th:each="s : ${students}" th:value="${s}" th:text="${s.name}"></option>
-</select><br/>
-    <label>Curs:</label>
-    <select th:field="*{course}" required>
-        <option th:each="c : ${courses}" th:value="${c}" th:text="${c.title}"></option>
-    </select><br/>
+<head>
+    <meta charset="UTF-8">
+    <title>Adaugă Notă</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
 
-    <label>Tip notă:</label>
-    <select th:field="*{type}" required>
-        <option th:each="t : ${types}" th:value="${t}" th:text="${t}"></option>
-    </select><br/>
+<div class="container mt-5">
+    <div class="mb-4">
+        <a th:href="@{/grades}" class="btn btn-light shadow-sm border rounded-pill px-4 py-2 d-inline-flex align-items-center" style="transition: all 0.2s ease;">
+            <i class="fas fa-home me-2 text-primary"></i>
+            <span class="fw-semibold">Inapoi</span>
+        </a>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark text-center">
+                    <h4 class="mb-0">🧾 Adaugă o Notă Nouă</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/grades/add}" th:object="${grade}" method="post">
 
-    <label>Valoare:</label>
-    <input type="number" th:field="*{value}" step="0.1" min="1" max="10" required/><br/>
+                        <div class="mb-3">
+                            <label class="form-label">Student:</label>
+                            <select th:field="*{student}" class="form-select" required>
+                                <option th:each="s : ${students}" th:value="${s}" th:text="${s.name}"></option>
+                            </select>
+                        </div>
 
-    <label>Dată:</label>
-    <input type="date" th:field="*{date}" required/><br/>
+                        <div class="mb-3">
+                            <label class="form-label">Curs:</label>
+                            <select th:field="*{course}" class="form-select" required>
+                                <option th:each="c : ${courses}" th:value="${c}" th:text="${c.title}"></option>
+                            </select>
+                        </div>
 
-    <button type="submit">Salvează</button>
-</form>
-<a th:href="@{/grades}">Înapoi la listă</a>
+                        <div class="mb-3">
+                            <label class="form-label">Tip notă:</label>
+                            <select th:field="*{type}" class="form-select" required>
+                                <option th:each="t : ${types}" th:value="${t}" th:text="${t}"></option>
+                            </select>
+                        </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Valoare:</label>
+                            <input type="number" step="0.1" min="1" max="10" th:field="*{value}" class="form-control" required/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Dată:</label>
+                            <input type="date" th:field="*{date}" class="form-control" required/>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/grades}" class="btn btn-secondary">↩ Înapoi la listă</a>
+                            <button type="submit" class="btn btn-success">💾 Salvează</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center text-muted fst-italic">
+                    "O notă poate părea un număr, dar uneori valorează un viitor."
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

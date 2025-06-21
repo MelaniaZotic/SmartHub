@@ -10,4 +10,5 @@ public interface CourseService {
     Course createCourse(Course course);
     Course updateCourse(Long id, Course course);
     void deleteCourse(Long id);
+    List<Course> searchCourses(String keyword);
 }

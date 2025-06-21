@@ -1,32 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Lista cursuri</title>
+<head>
     <meta charset="UTF-8">
-</head>
-<body><h1>Cursuri</h1>
-<a th:href="@{/courses/add}">Adaugă curs</a>
+    <title>Cursuri</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .fancy-card {
+            background: linear-gradient(145deg, #b4cbee, #ffffff);
+            border-radius: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Titlu</th>
-        <th>Credite</th>
-        <th>Semestru</th>
-        <th>Acțiuni</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="course : ${courses}">
-        <td th:text="${course.id}"></td>
-        <td th:text="${course.title}"></td>
-        <td th:text="${course.credits}"></td>
-        <td th:text="${course.semester}"></td>
-        <td><a th:href="@{'/courses/edit/' + ${course.id}}">Editează</a> | <a
-                th:href="@{'/courses/delete/' + ${course.id}}"
-                onclick="return confirm('Ești sigur că vrei să ștergi acest curs?')">Șterge</a></td>
-    </tr>
-    </tbody>
-</table>
+        .fancy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4b0082;
+        }
+
+        .emoji-header {
+            font-size: 2.5rem;
+            margin-bottom: -10px;
+        }
+
+        .badge-semester {
+            background-color: #6f42c1;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <!-- Buton Pagina Principală -->
+    <div class="mb-4">
+        <a th:href="@{/}" class="btn btn-light shadow-sm border rounded-pill px-4 py-2 d-inline-flex align-items-center" style="transition: all 0.2s ease;">
+            <i class="fas fa-home me-2 text-primary"></i>
+            <span class="fw-semibold">Pagina Principală</span>
+        </a>
+    </div>
+
+    <div class="text-center mb-5">
+        <div class="emoji-header">📘</div>
+        <h2 class="fw-bold" style="color: #4b0082;">Cursuri Academice</h2>
+        <p class="text-muted fst-italic">Explorează fiecare curs ca pe o nouă aventură educațională.</p>
+    </div>
+
+    <!-- Formular de căutare + buton Adaugă -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <form th:action="@{/courses}" method="get" class="d-flex w-100 me-3">
+            <input type="text" name="keyword" class="form-control me-2"
+                   placeholder="🔍 Caută titlu sau descriere..."
+                   th:value="${keyword}">
+            <button type="submit" class="btn btn-outline-primary">Caută</button>
+        </form>
+        <a th:href="@{/courses/add}" class="btn btn-success btn-lg">➕ Adaugă Curs</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" th:each="course : ${courses}">
+            <div class="card fancy-card p-4 h-100">
+                <div class="card-body">
+                    <h5 class="course-title mb-3" th:text="${course.title}">Titlu Curs</h5>
+                    <p class="mb-2"><strong>Credite:</strong> <span th:text="${course.credits}">6</span></p>
+                    <p><strong>Semestru:</strong>
+                        <span class="badge text-white badge-semester" th:text="'Semestrul ' + ${course.semester}">1</span>
+                    </p>
+                    <p class="text-muted small" th:if="${course.description != null}" th:text="${course.description}">Descriere curs</p>
+                </div>
+                <div class="card-footer bg-transparent border-0 d-flex justify-content-between px-0">
+                    <a th:href="@{'/courses/edit/' + ${course.id}}" class="btn btn-outline-primary btn-sm">✏️ Editează</a>
+                    <a th:href="@{'/courses/delete/' + ${course.id}}"
+                       onclick="return confirm('Ești sigur că vrei să ștergi acest curs?')"
+                       class="btn btn-outline-danger btn-sm">🗑️ Șterge</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
