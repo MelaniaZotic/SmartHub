@@ -1,36 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Studenți</title>
+<head>
     <meta charset="UTF-8">
+    <title>Studenți</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
-<body><h1>Lista Studenților</h1>
-<a th:href="@{/students/add}">Adaugă student</a>
+<body class="bg-light">
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nume</th>
-        <th>Email</th>
-        <th>Grupă</th>
-        <th>An</th>
-        <th>Specializare</th>
-        <th>Acțiuni</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="student : ${students}">
-        <td th:text="${student.id}"></td>
-        <td th:text="${student.name}"></td>
-        <td th:text="${student.email}"></td>
-        <td th:text="${student.group}"></td>
-        <td th:text="${student.year}"></td>
-        <td th:text="${student.specialization}"></td>
-        <td><a th:href="@{'/students/edit/' + ${student.id}}">Editează</a> | <a
-                th:href="@{'/students/delete/' + ${student.id}}"
-                onclick="return confirm('Ești sigur că vrei să ștergi acest student?')">Șterge</a></td>
-    </tr>
-    </tbody>
-</table>
+<div class="container mt-5">
+    <!-- Buton Pagina Principală -->
+    <div class="mb-4">
+        <a th:href="@{/}" class="btn btn-light shadow-sm border rounded-pill px-4 py-2 d-inline-flex align-items-center" style="transition: all 0.2s ease;">
+            <i class="fas fa-home me-2 text-primary"></i>
+            <span class="fw-semibold">Pagina Principală</span>
+        </a>
+    </div>
+
+    <h2 class="text-center mb-4">📚 Lista Studenților</h2>
+
+    <!-- Formular de căutare -->
+    <form th:action="@{/students}" method="get" class="row mb-4">
+        <div class="col-md-4">
+            <input type="text" name="keyword" th:value="${keyword}" class="form-control" placeholder="Caută după nume sau email">
+        </div>
+        <div class="col-md-auto">
+            <button type="submit" class="btn btn-outline-primary">🔍 Caută</button>
+        </div>
+    </form>
+
+    <!-- Buton Adaugă student -->
+    <div class="d-flex justify-content-end mb-3">
+        <a th:href="@{/students/add}" class="btn btn-success">➕ Adaugă student</a>
+    </div>
+
+    <!-- Tabelul de studenți -->
+    <table class="table table-bordered table-striped shadow-sm bg-white">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nume</th>
+            <th>Email</th>
+            <th>Grupă</th>
+            <th>An</th>
+            <th>Specializare</th>
+            <th>Acțiuni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${page.content}">
+            <td th:text="${student.id}">1</td>
+            <td th:text="${student.name}">Nume</td>
+            <td th:text="${student.email}">email</td>
+            <td th:text="${student.studentGroup}">G1</td>
+            <td th:text="${student.year}">1</td>
+            <td th:text="${student.specialization}">Specializare</td>
+            <td>
+                <a th:href="@{'/students/edit/' + ${student.id}}" class="btn btn-sm btn-primary">✏️ Editează</a>
+                <a th:href="@{'/students/delete/' + ${student.id}}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Ești sigur că vrei să ștergi acest student?')">🗑️ Șterge</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Paginare -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div>
+            <span th:text="'Pagina ' + ${page.number + 1} + ' din ' + ${page.totalPages}"></span>
+        </div>
+        <div>
+            <nav>
+                <ul class="pagination mb-0">
+                    <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+                        <a class="page-link" th:href="@{/students(page=${page.number - 1}, keyword=${keyword})}">«</a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                        th:classappend="${page.number == i} ? 'active'">
+                        <a class="page-link" th:href="@{/students(page=${i}, keyword=${keyword})}" th:text="${i + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+                        <a class="page-link" th:href="@{/students(page=${page.number + 1}, keyword=${keyword})}">»</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap & FontAwesome -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

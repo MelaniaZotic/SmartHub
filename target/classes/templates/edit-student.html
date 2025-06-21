@@ -1,24 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Editează Student</title></head>
-<body><h1>Editează Student</h1>
-<form th:action="@{'/students/edit/' + ${student.id}}" th:object="${student}" method="post"><label>Nume:</label> <input
-        type="text" th:field="*{name}" required/><br/>
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" required/><br/>
+<head>
+    <meta charset="UTF-8">
+    <title>Editează Student</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
 
-    <label>Grupă:</label>
-    <input type="text" th:field="*{group}" required/><br/>
+<div class="container mt-5">
+    <div class="mb-4">
+        <a th:href="@{/students}" class="btn btn-light shadow-sm border rounded-pill px-4 py-2 d-inline-flex align-items-center" style="transition: all 0.2s ease;">
+            <i class="fas fa-home me-2 text-primary"></i>
+            <span class="fw-semibold">Inapoi</span>
+        </a>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">🎓 Editează informațiile studentului</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{'/students/edit/' + ${student.id}}" th:object="${student}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Nume:</label>
+                            <input type="text" th:field="*{name}" class="form-control" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" th:field="*{email}" class="form-control" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Grupă:</label>
+                            <input type="text" th:field="*{studentGroup}" class="form-control" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">An:</label>
+                            <input type="number" th:field="*{year}" class="form-control" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Specializare:</label>
+                            <input type="text" th:field="*{specialization}" class="form-control" required/>
+                        </div>
 
-    <label>An:</label>
-    <input type="number" th:field="*{year}" required/><br/>
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/students}" class="btn btn-secondary">↩ Înapoi</a>
+                            <button type="submit" class="btn btn-success">💾 Salvează modificările</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-muted text-center fst-italic">
+                    "Educația este cea mai puternică armă." – Nelson Mandela
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <label>Specializare:</label>
-    <input type="text" th:field="*{specialization}" required/><br/>
-
-    <button type="submit">Salvează modificările</button>
-</form>
-<a th:href="@{/students}">Înapoi</a>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

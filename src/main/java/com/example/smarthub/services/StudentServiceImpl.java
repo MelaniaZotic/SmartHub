@@ -2,12 +2,15 @@ package com.example.smarthub.services;
 
 import com.example.smarthub.models.Student;
 import com.example.smarthub.repositories.StudentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
     private final StudentRepository studentRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository) {
@@ -45,6 +48,19 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
+    }
+
+    // ✅ Implementarea metodei de căutare cu paginare
+    @Override
+    public Page<Student> searchStudents(String search, Pageable pageable) {
+        if (search == null || search.trim().isEmpty()) {
+            return studentRepository.findAll(pageable);
+        }
+        return studentRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(search, search, pageable);
+    }
+    @Override
+    public Page<Student> findAllPaged(Pageable pageable) {
+        return studentRepository.findAll(pageable);
     }
 
 }

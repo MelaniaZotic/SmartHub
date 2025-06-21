@@ -1,23 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Editează curs</title></head>
-<body><h1>Editează curs</h1>
-<form th:action="@{'/courses/edit/' + ${course.id}}" th:object="${course}" method="post"><label>Titlu:</label>
-    <input
-        type="text" th:field="*{title}" required/><br/>
-    <label>Descriere:</label>
-    <input type="text" th:field="*{description}"/><br/>
+<head>
+    <meta charset="UTF-8">
+    <title>Editează Curs</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
 
-    <label>Credite:</label>
-    <input type="number" th:field="*{credits}" required/><br/>
+<div class="container mt-5">
+    <div class="mb-4">
+        <a th:href="@{/courses}" class="btn btn-light shadow-sm border rounded-pill px-4 py-2 d-inline-flex align-items-center" style="transition: all 0.2s ease;">
+            <i class="fas fa-home me-2 text-primary"></i>
+            <span class="fw-semibold">Inapoi</span>
+        </a>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-indigo text-white text-center" style="background-color: #6610f2;">
+                    <h4 class="mb-0">📘 Editează Informațiile Cursului</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{'/courses/edit/' + ${course.id}}" th:object="${course}" method="post">
 
-    <label>Semestru:</label>
-    <input type="number" th:field="*{semester}" required/><br/>
+                        <div class="mb-3">
+                            <label class="form-label">Titlu:</label>
+                            <input type="text" th:field="*{title}" class="form-control" required/>
+                        </div>
 
-    <button type="submit">Salvează modificările</button>
+                        <div class="mb-3">
+                            <label class="form-label">Descriere:</label>
+                            <input type="text" th:field="*{description}" class="form-control"/>
+                        </div>
 
-</form>
-<a th:href="@{/courses}">Înapoi</a>
+                        <div class="mb-3">
+                            <label class="form-label">Credite:</label>
+                            <input type="number" th:field="*{credits}" class="form-control" required/>
+                        </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Semestru:</label>
+                            <input type="number" th:field="*{semester}" class="form-control" required/>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/courses}" class="btn btn-secondary">↩ Înapoi</a>
+                            <button type="submit" class="btn btn-success">💾 Salvează modificările</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center text-muted fst-italic">
+                    "Fiecare curs este o poartă către cunoaștere."
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

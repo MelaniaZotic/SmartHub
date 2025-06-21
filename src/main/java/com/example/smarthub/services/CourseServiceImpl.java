@@ -48,5 +48,10 @@ public class CourseServiceImpl implements CourseService {
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
     }
+
+    @Override
+    public List<Course> searchCourses(String keyword) {
+        return courseRepository.searchCourses(keyword);
+    }
 }
 

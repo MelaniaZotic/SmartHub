@@ -16,8 +16,14 @@ public class CourseManagementController {
     }
 
     @GetMapping
-    public String listCourses(Model model) {
-        model.addAttribute("courses", courseService.getAllCourses());
+    public String listCourses(@RequestParam(value = "keyword", required = false) String keyword,
+                              Model model) {
+        if (keyword != null && !keyword.isBlank()) {
+            model.addAttribute("courses", courseService.searchCourses(keyword));
+            model.addAttribute("keyword", keyword);
+        } else {
+            model.addAttribute("courses", courseService.getAllCourses());
+        }
         return "courses";
     }
 

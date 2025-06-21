@@ -1,22 +1,112 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>SmartCampus - Home</title>
+    <title>SmartCampus - Bine ai venit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #e0f7fa, #e8f5e9);
+            min-height: 100vh;
+        }
+        .hero {
+            background-color: #ffffffdd;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+        .card i {
+            font-size: 2.5rem;
+            color: #4e73df;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to SmartCampus</h1>
-<p>Select a section to manage:</p>
 
-<ul>
-    <li><a th:href="@{/students}">Manage Students</a></li>
-    <li><a th:href="@{/courses}">Manage Courses</a></li>
-    <li><a th:href="@{/professors}">Manage Professors</a></li>
-    <li><a th:href="@{/enrollments}">Manage Enrollments</a></li>
-    <li><a th:href="@{/grades}">Manage Grades</a></li>
-    <li><a th:href="@{/schedules}">Manage Schedules</a></li>
-    <li><a th:href="@{/exams}">Manage Exams</a></li>
-    <li><a th:href="@{/announcements}">Announcements</a></li>
-</ul>
+<div class="container text-center mt-5">
+    <div class="hero">
+        <h1 class="mb-3 fw-bold">🎓 Bine ai venit în <span class="text-primary">SmartCampus</span></h1>
+        <p class="lead text-muted">Un portal academic modern pentru gestionarea tuturor secțiunilor universitare.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-5">
+        <!-- Student Card -->
+        <div class="col">
+            <div class="card p-3 h-100 text-center">
+                <i class="fas fa-user-graduate mb-3"></i>
+                <h5 class="card-title">Studenți</h5>
+                <p class="card-text">Administrează datele studenților rapid și eficient.</p>
+                <a th:href="@{/students}" class="btn btn-primary">Gestionează</a>
+            </div>
+        </div>
+
+        <!-- Courses -->
+        <div class="col">
+            <div class="card p-3 h-100 text-center">
+                <i class="fas fa-book mb-3"></i>
+                <h5 class="card-title">Cursuri</h5>
+                <p class="card-text">Adaugă, editează și explorează cursuri universitare.</p>
+                <a th:href="@{/courses}" class="btn btn-success">Gestionează</a>
+            </div>
+        </div>
+
+        <!-- Professors -->
+        <div class="col">
+            <div class="card p-3 h-100 text-center">
+                <i class="fas fa-chalkboard-teacher mb-3"></i>
+                <h5 class="card-title">Profesori</h5>
+                <p class="card-text">Găsește și administrează cadrele didactice.</p>
+                <a th:href="@{/professors}" class="btn btn-warning">Gestionează</a>
+            </div>
+        </div>
+
+        <!-- Grades -->
+        <div class="col">
+            <div class="card p-3 h-100 text-center">
+                <i class="fas fa-star-half-stroke mb-3"></i>
+                <h5 class="card-title">Note</h5>
+                <p class="card-text">Atribuie și editează notele pentru studenți.</p>
+                <a th:href="@{/grades}" class="btn btn-danger">Gestionează</a>
+            </div>
+        </div>
+
+        <!-- Schedules -->
+        <div class="col">
+            <div class="card p-3 h-100 text-center">
+                <i class="fas fa-calendar-alt mb-3"></i>
+                <h5 class="card-title">Orar</h5>
+                <p class="card-text">Planifică orele și organizează timpul eficient.</p>
+                <a th:href="@{/schedules}" class="btn btn-info">Gestionează</a>
+            </div>
+        </div>
+
+        <!-- Exams -->
+        <div class="col">
+            <div class="card p-3 h-100 text-center">
+                <i class="fas fa-pen-nib mb-3"></i>
+                <h5 class="card-title">Examene</h5>
+                <p class="card-text">Pregătește, programează și revizuiește examenele.</p>
+                <a th:href="@{/exams}" class="btn btn-secondary">Gestionează</a>
+            </div>
+        </div>
+
+        <!-- Announcements -->
+        <div class="col">
+            <div class="card p-3 h-100 text-center">
+                <i class="fas fa-bullhorn mb-3"></i>
+                <h5 class="card-title">Anunțuri</h5>
+                <p class="card-text">Publică informații importante pentru studenți.</p>
+                <a th:href="@{/announcements}" class="btn btn-dark">Vizualizează</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
