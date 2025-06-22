@@ -7,24 +7,40 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    private final UserRepository userRepo;
+    private final PasswordEncoder encoder;
+
+    public UserService(UserRepository userRepo, PasswordEncoder encoder) {
+        this.userRepo = userRepo;
+        this.encoder  = encoder;
     }
 
-    public void registerUser(String username, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRoles(Collections.singleton(Role.STUDENT)); // default role
-        userRepository.save(user);
+    /* register */
+    public void registerUser(String username,String rawPw) {
+        User u = new User();
+        u.setUsername(username);
+        u.setPassword(encoder.encode(rawPw));
+        u.setRoles(Set.of(Role.STUDENT));
+        u.setEnabled(false);
+        userRepo.save(u);
+    }
+
+    /* aprobare cont de către admin */
+    public void approveUser(Long id) {
+        userRepo.findById(id).ifPresent(u -> {
+            u.setEnabled(true);
+            userRepo.save(u);
+        });
+    }
+
+    public List<User> getPendingUsers() {
+        return userRepo.findByEnabledFalse();
     }
 }
