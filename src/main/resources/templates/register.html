@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Înregistrare - SmartCampus</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #d0eafc, #f7faff);
+      height: 100vh;
+    }
+
+    .register-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control:invalid {
+      border-color: #dc3545;
+    }
+
+    .form-control:valid {
+      border-color: #198754;
+    }
+
+    .error-text {
+      color: #dc3545;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="register-container">
+  <h2 class="text-center text-primary mb-4">📝 Creează un cont nou</h2>
+
+  <form id="registerForm" novalidate>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+      <div class="error-text" id="emailError"></div>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Parolă</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+      <div class="error-text" id="passwordError"></div>
+    </div>
+
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirmă parola</label>
+      <input type="password" class="form-control" id="confirmPassword" required>
+      <div class="error-text" id="confirmError"></div>
+    </div>
+
+    <div class="text-danger mb-2" id="serverError" style="display: none;"></div>
+
+    <button type="submit" class="btn btn-success w-100">Înregistrează-te</button>
+  </form>
+
+  <div class="text-center mt-3">
+    <p>Ai deja cont? <a href="/login" class="text-decoration-none">Autentifică-te aici</a></p>
+  </div>
+</div>
+
+<script>
+  document.getElementById("registerForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = e.target.email.value.trim();
+    const password = e.target.password.value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const confirmError = document.getElementById("confirmError");
+    const serverError = document.getElementById("serverError");
+
+    emailError.textContent = '';
+    passwordError.textContent = '';
+    confirmError.textContent = '';
+    serverError.style.display = "none";
+    serverError.textContent = '';
+
+    let valid = true;
+
+    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    if (!emailPattern.test(email)) {
+      emailError.textContent = "Adresa de email nu este validă.";
+      valid = false;
+    }
+
+    const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/;
+    if (!passwordPattern.test(password)) {
+      passwordError.textContent = "Parola trebuie să aibă minim 6 caractere, litere și cifre.";
+      valid = false;
+    }
+
+    if (password !== confirmPassword) {
+      confirmError.textContent = "Parolele nu se potrivesc.";
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    try {
+      const response = await fetch("/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (response.ok) {
+        window.location.href = "/login?success";
+      } else {
+        const msg = await response.text();
+        serverError.style.display = "block";
+        serverError.textContent = msg || "Înregistrarea a eșuat.";
+      }
+    } catch (err) {
+      serverError.style.display = "block";
+      serverError.textContent = "Eroare de rețea sau server.";
+    }
+  });
+</script>
+
+</body>
+</html>

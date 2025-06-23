@@ -15,4 +15,8 @@ public class RedirectController {
     public String loginPage() {
         return "login";
     }
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register";
+    }
 }
