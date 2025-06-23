@@ -26,8 +26,8 @@
 
   <form id="loginForm">
     <div class="mb-3">
-      <label class="form-label">Utilizator</label>
-      <input type="text" class="form-control" name="username" placeholder="Introdu utilizatorul" required>
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" name="email" placeholder="Introdu adresa de email" required>
     </div>
     <div class="mb-3">
       <label class="form-label">Parolă</label>
@@ -47,7 +47,7 @@
   document.getElementById("loginForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
-    const username = e.target.username.value;
+    const email = e.target.email.value;
     const password = e.target.password.value;
     const errorDiv = document.getElementById("error");
 
@@ -57,3 +57,21 @@
         headers: {
           "Content-Type": "application/json"
         },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (response.ok) {
+        window.location.href = "/dashboard";
+      } else {
+        const msg = await response.text();
+        errorDiv.style.display = "block";
+        errorDiv.textContent = msg || "Autentificarea a eșuat.";
+      }
+    } catch (err) {
+      errorDiv.style.display = "block";
+      errorDiv.textContent = "Eroare de rețea sau server.";
+    }
+  });
+</script>
+</body>
+</html>
