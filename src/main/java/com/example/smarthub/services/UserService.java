@@ -27,7 +27,7 @@ public class UserService {
     /* register */
     public void registerUser(String username,String rawPw) {
         User u = new User();
-        u.setUsername(username);
+        //u.setUsername(username);
         u.setPassword(encoder.encode(rawPw));
         u.setRoles(Set.of(Role.STUDENT));
         u.setEnabled(false);
@@ -51,7 +51,7 @@ public class UserService {
 
         // 2. mapăm DTO -> entitate
         User user = new User();
-        user.setUsername(req.getUsername());
+        //user.setUsername(req.getUsername());
         user.setEmail(req.getEmail());
         user.setPassword(encoder.encode(req.getPassword()));
 

@@ -24,7 +24,7 @@ public class Student {
 
     @OneToOne
     @JoinColumn(name = "user_account_id")
-    private UserAccount userAccount;
+    private User user;
 
     @OneToMany(mappedBy = "student")
     private List<Grade> grades;
@@ -83,12 +83,12 @@ public class Student {
         this.specialization = specialization;
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public void setUserAccount(User user) {
+        this.user = user;
     }
 
     public List<Grade> getGrades() {
