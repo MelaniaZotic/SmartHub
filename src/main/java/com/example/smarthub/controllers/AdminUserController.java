@@ -14,7 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @Controller
 @RequestMapping("/admin/users")
 @PreAuthorize("hasRole('ADMIN')")
-public class AdminUserController {
+public class
+AdminUserController {
 
     private final UserService userService;
     public AdminUserController(UserService us){ this.userService = us;}

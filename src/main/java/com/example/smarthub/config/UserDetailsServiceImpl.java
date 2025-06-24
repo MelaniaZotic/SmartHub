@@ -15,15 +15,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetailsServiceImpl(UserRepository repo){ this.repo = repo;}
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        User u = repo.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
-        if(!u.isEnabled())
+    public UserDetails loadUserByUsername(String email) {
+        User u = repo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + email));
+        if (!u.isEnabled())
             throw new DisabledException("Account not approved");
+
         return org.springframework.security.core.userdetails.User
-                .withUsername(u.getUsername())
+                .withUsername(u.getEmail()) // ← identificatorul va fi email
                 .password(u.getPassword())
                 .roles(u.getRoles().stream().map(Enum::name).toArray(String[]::new))
                 .build();
     }
+
 }

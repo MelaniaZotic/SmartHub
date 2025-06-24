@@ -25,7 +25,7 @@ public class Professor {
 
     @OneToOne
     @JoinColumn(name = "user_account_id")
-    private UserAccount userAccount;
+    private User user;
 
     @OneToMany(mappedBy = "professor")
     private List<Course> courses;
