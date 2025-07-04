@@ -16,10 +16,10 @@ public class Feedback {
 
     private String comment;
     private int score; // 1 to 5
-
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "student_id")
+//    private Student student;
 
     @ManyToOne
     @JoinColumn(name = "course_id")

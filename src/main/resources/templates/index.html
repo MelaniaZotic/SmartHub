@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="ro">
 <head>
     <meta charset="UTF-8">
@@ -27,6 +26,11 @@
             font-size: 2.5rem;
             color: #4e73df;
         }
+        .logout-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -35,10 +39,16 @@
     <div class="hero">
         <h1 class="mb-3 fw-bold">🎓 Bine ai venit în <span class="text-primary">SmartCampus</span></h1>
         <p class="lead text-muted">Un portal academic modern pentru gestionarea tuturor secțiunilor universitare.</p>
+        <p class="fw-bold">Salut, <span th:text="${username}"></span>!</p>
     </div>
 
+    <form th:action="@{/logout}" method="post" class="logout-btn">
+        <button type="submit" class="btn btn-outline-danger">
+            <i class="fas fa-sign-out-alt me-1"></i> Logout
+        </button>
+    </form>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-5">
-        <!-- Student Card -->
+        <!-- Card Studenți -->
         <div class="col">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-user-graduate mb-3"></i>
@@ -48,7 +58,7 @@
             </div>
         </div>
 
-        <!-- Courses -->
+        <!-- Card Cursuri -->
         <div class="col">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-book mb-3"></i>
@@ -58,7 +68,7 @@
             </div>
         </div>
 
-        <!-- Professors -->
+        <!-- Card Profesori -->
         <div class="col">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-chalkboard-teacher mb-3"></i>
@@ -68,7 +78,7 @@
             </div>
         </div>
 
-        <!-- Grades -->
+        <!-- Card Note -->
         <div class="col">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-star-half-stroke mb-3"></i>
@@ -78,7 +88,7 @@
             </div>
         </div>
 
-        <!-- Schedules -->
+        <!-- Card Orar -->
         <div class="col">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-calendar-alt mb-3"></i>
@@ -88,7 +98,7 @@
             </div>
         </div>
 
-        <!-- Exams -->
+        <!-- Card Examene -->
         <div class="col">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-pen-nib mb-3"></i>
@@ -98,7 +108,7 @@
             </div>
         </div>
 
-        <!-- Announcements -->
+        <!-- Card Anunțuri -->
         <div class="col">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-bullhorn mb-3"></i>
@@ -108,8 +118,8 @@
             </div>
         </div>
 
-        <!-- Users - Vizibil doar pentru ADMIN -->
-        <div class="col" sec:authorize="hasRole('ADMIN')">
+        <!-- Card Utilizatori (opțional, doar ADMIN) -->
+        <div class="col">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-users-gear mb-3"></i>
                 <h5 class="card-title">Utilizatori</h5>
@@ -117,7 +127,6 @@
                 <a th:href="@{/users}" class="btn btn-outline-primary">Gestionează</a>
             </div>
         </div>
-
     </div>
 </div>
 

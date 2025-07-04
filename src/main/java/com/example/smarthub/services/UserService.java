@@ -24,7 +24,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    /* register */
+
     public void registerUser(String username,String rawPw) {
         User u = new User();
         //u.setUsername(username);
@@ -41,24 +41,32 @@ public class UserService {
             userRepo.save(u);
         });
     }
-    public boolean registerUser(RegisterRequest req) {
 
-        // 1. verificăm existența username/email
-        if (userRepository.existsByEmail(req.getEmail()) ||
-                userRepository.existsByEmail(req.getEmail())) {
-            return false; // deja există
+    public boolean registerUser(RegisterRequest req) {
+        if (userRepository.existsByEmail(req.getEmail())) {
+            return false;
         }
 
-        // 2. mapăm DTO -> entitate
-        User user = new User();
-        //user.setUsername(req.getUsername());
-        user.setEmail(req.getEmail());
-        user.setPassword(encoder.encode(req.getPassword()));
+        String email = req.getEmail().trim().toLowerCase();
 
-        // 3. salvăm
+        Role role;
+        if (email.endsWith("@s.univ.ro")) {
+            role = Role.STUDENT;
+        } else if (email.endsWith("@prof.univ.ro")) {
+            role = Role.PROFESSOR;
+        } else {
+            return false; // invalid
+        }
+
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(encoder.encode(req.getPassword()));
+        user.getRoles().add(role);
+
         userRepository.save(user);
         return true;
     }
+
 
     public List<User> getPendingUsers() {
         return userRepo.findByEnabledFalse();
