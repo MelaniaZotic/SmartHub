@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,6 +21,8 @@ public class AuthApiController {
     private final PasswordEncoder encoder;
     private final UserRepository userRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthApiController.class);
+
     public AuthApiController(PasswordEncoder encoder, UserRepository userRepository) {
         this.encoder = encoder;
         this.userRepository = userRepository;
@@ -26,6 +30,7 @@ public class AuthApiController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+        logger.info("Register endpoint called for email: {}", registerRequest.getEmail());
         String email = registerRequest.getEmail().trim().toLowerCase();
         String username = registerRequest.getUsername().trim();
 
@@ -40,6 +45,7 @@ public class AuthApiController {
         } else if (email.endsWith("@prof.unibuc.ro")) {
             role = Role.PROFESSOR;
         } else {
+            logger.warn("Registration bad request for email: {}", email);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Emailul trebuie să fie instituțional: @s.unibuc.ro sau @prof.unibuc.ro");
         }
@@ -53,6 +59,7 @@ public class AuthApiController {
 
         userRepository.save(user);
 
+        logger.info("User registered successfully with role {}", role.name());
         return ResponseEntity.ok("Înregistrare reușită cu rol: " + role.name());
     }
 

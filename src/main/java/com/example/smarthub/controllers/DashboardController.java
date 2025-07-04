@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class DashboardController {
 
     private final UserRepository userRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
     public DashboardController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -23,6 +27,7 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String dashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        logger.info("Dashboard accessed by {}", userDetails.getUsername());
         model.addAttribute("username", userDetails.getUsername());
         return "index";
     }
@@ -31,6 +36,7 @@ public class DashboardController {
     public String studentsPage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         // Tot user-ul logat
         String email = userDetails.getUsername();
+        logger.info("Students page accessed by {}", email);
         User currentUser = userRepository.findByEmail(email).orElseThrow();
 
         // Verifică dacă e ADMIN

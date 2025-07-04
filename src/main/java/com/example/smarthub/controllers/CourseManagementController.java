@@ -9,10 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("/courses")
 public class CourseManagementController {
+    private static final Logger logger = LoggerFactory.getLogger(CourseManagementController.class);
     private final CourseService courseService;
     private final UserRepository userRepository;
     public CourseManagementController(CourseService courseService, UserRepository userRepository) {
@@ -28,6 +31,7 @@ public class CourseManagementController {
         User user = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(); // ai nevoie de userRepository injectat!
 
+        logger.info("Listing courses for user: {}", userDetails.getUsername());
         model.addAttribute("currentUserId", user.getId());
 
         if (keyword != null && !keyword.isBlank()) {
@@ -42,6 +46,7 @@ public class CourseManagementController {
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
+        logger.debug("Showing add-course form");
         model.addAttribute("course", new Course());
         return "add-course";
     }
@@ -49,8 +54,9 @@ public class CourseManagementController {
     @PostMapping("/add")
     public String addCourse(@ModelAttribute("course") Course course,
                             @AuthenticationPrincipal UserDetails userDetails) {
+        logger.info("Adding new course by user: {}", userDetails.getUsername());
         User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
-        course.setUser(user);  // Setezi userul care a creat cursul!
+        course.setUser(user);
         courseService.createCourse(course);
         return "redirect:/courses";
     }
@@ -58,8 +64,10 @@ public class CourseManagementController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
+        logger.debug("Showing edit form for course id: {}", id);
         Course course = courseService.getCourseById(id);
         if (course == null) {
+            logger.warn("Course not found for id: {}", id);
             return "redirect:/courses";
         }
         model.addAttribute("course", course);
@@ -68,6 +76,7 @@ public class CourseManagementController {
 
     @PostMapping("/edit/{id}")
     public String editCourse(@PathVariable Long id, @ModelAttribute("course") Course course) {
+        logger.info("Editing course id: {}", id);
         courseService.updateCourse(id, course);
         return "redirect:/courses";
     }
@@ -75,6 +84,7 @@ public class CourseManagementController {
 
     @GetMapping("/delete/{id}")
     public String deleteCourse(@PathVariable Long id) {
+        logger.info("Deleting course id: {}", id);
         courseService.deleteCourse(id);
         return "redirect:/courses";
     }
