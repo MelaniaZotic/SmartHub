@@ -22,8 +22,8 @@ public class Course {
     private int semester;
 
     @ManyToOne
-    @JoinColumn(name = "professor_id")
-    private Professor professor;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "course")
     private List<Enrollment> enrollments;
@@ -88,12 +88,12 @@ public class Course {
         this.enrollments = enrollments;
     }
 
-    public Professor getProfessor() {
-        return professor;
+    public User getUser() {
+        return user;
     }
 
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getSemester() {

@@ -22,8 +22,8 @@ public class Announcement {
     private LocalDate publishDate;
 
     @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Professor author;
+    @JoinColumn(name = "user_id")
+    private User author;
 
     private String targetAudience; // STUDENTS / PROFESSORS / ALL
 }
