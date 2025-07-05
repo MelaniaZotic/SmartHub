@@ -64,7 +64,7 @@
                 <i class="fas fa-book mb-3"></i>
                 <h5 class="card-title">Cursuri</h5>
                 <p class="card-text">Adaugă, editează și explorează cursuri universitare.</p>
-                <a th:href="@{/courses}" class="btn btn-success">Gestionează</a>
+                <a th:href="@{/courses}" class="btn btn-success">Descoperă cursurile</a>
             </div>
         </div>
 
@@ -74,17 +74,18 @@
                 <i class="fas fa-chalkboard-teacher mb-3"></i>
                 <h5 class="card-title">Profesori</h5>
                 <p class="card-text">Găsește și administrează cadrele didactice.</p>
-                <a th:href="@{/professors}" class="btn btn-warning">Gestionează</a>
+                <a th:href="@{/professors}" class="btn btn-warning">Descoperă profesorii</a>
             </div>
         </div>
 
         <!-- Card Note -->
-        <div class="col">
+        <!-- Card Note - doar pentru STUDENT -->
+        <div class="col" th:if="${isStudent}">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-star-half-stroke mb-3"></i>
                 <h5 class="card-title">Note</h5>
                 <p class="card-text">Atribuie și editează notele pentru studenți.</p>
-                <a th:href="@{/grades}" class="btn btn-danger">Gestionează</a>
+                <a th:href="@{/grades}" class="btn btn-danger">Verifică notele</a>
             </div>
         </div>
 
@@ -94,19 +95,21 @@
                 <i class="fas fa-calendar-alt mb-3"></i>
                 <h5 class="card-title">Orar</h5>
                 <p class="card-text">Planifică orele și organizează timpul eficient.</p>
-                <a th:href="@{/schedules}" class="btn btn-info">Gestionează</a>
+                <a href="https://fmi.unibuc.ro/orar/" target="_blank" class="btn btn-info">
+                    Vezi mai mult..
+                </a>
             </div>
         </div>
 
-        <!-- Card Examene -->
-        <div class="col">
-            <div class="card p-3 h-100 text-center">
-                <i class="fas fa-pen-nib mb-3"></i>
-                <h5 class="card-title">Examene</h5>
-                <p class="card-text">Pregătește, programează și revizuiește examenele.</p>
-                <a th:href="@{/exams}" class="btn btn-secondary">Gestionează</a>
-            </div>
-        </div>
+<!--        &lt;!&ndash; Card Examene &ndash;&gt;-->
+<!--        <div class="col">-->
+<!--            <div class="card p-3 h-100 text-center">-->
+<!--                <i class="fas fa-pen-nib mb-3"></i>-->
+<!--                <h5 class="card-title">Examene</h5>-->
+<!--                <p class="card-text">Pregătește, programează și revizuiește examenele.</p>-->
+<!--                <a th:href="@{/exams}" class="btn btn-secondary">Gestionează</a>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!-- Card Anunțuri -->
         <div class="col">
@@ -118,15 +121,15 @@
             </div>
         </div>
 
-        <!-- Card Utilizatori (opțional, doar ADMIN) -->
-        <div class="col">
-            <div class="card p-3 h-100 text-center">
-                <i class="fas fa-users-gear mb-3"></i>
-                <h5 class="card-title">Utilizatori</h5>
-                <p class="card-text">Adaugă, editează și gestionează conturile utilizatorilor.</p>
-                <a th:href="@{/users}" class="btn btn-outline-primary">Gestionează</a>
-            </div>
-        </div>
+<!--        &lt;!&ndash; Card Utilizatori (opțional, doar ADMIN) &ndash;&gt;-->
+<!--        <div class="col">-->
+<!--            <div class="card p-3 h-100 text-center">-->
+<!--                <i class="fas fa-users-gear mb-3"></i>-->
+<!--                <h5 class="card-title">Utilizatori</h5>-->
+<!--                <p class="card-text">Adaugă, editează și gestionează conturile utilizatorilor.</p>-->
+<!--                <a th:href="@{/users}" class="btn btn-outline-primary">Gestionează</a>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
 

@@ -64,7 +64,7 @@
                 <i class="fas fa-book mb-3"></i>
                 <h5 class="card-title">Cursuri</h5>
                 <p class="card-text">Adaugă, editează și explorează cursuri universitare.</p>
-                <a th:href="@{/courses}" class="btn btn-success">Descoperă studenții</a>
+                <a th:href="@{/courses}" class="btn btn-success">Descoperă cursurile</a>
             </div>
         </div>
 
@@ -79,7 +79,8 @@
         </div>
 
         <!-- Card Note -->
-        <div class="col">
+        <!-- Card Note - doar pentru STUDENT -->
+        <div class="col" th:if="${isStudent}">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-star-half-stroke mb-3"></i>
                 <h5 class="card-title">Note</h5>
@@ -94,7 +95,9 @@
                 <i class="fas fa-calendar-alt mb-3"></i>
                 <h5 class="card-title">Orar</h5>
                 <p class="card-text">Planifică orele și organizează timpul eficient.</p>
-                <a th:href="@{/schedules}" class="btn btn-info">Vezi mai mult..</a>
+                <a href="https://fmi.unibuc.ro/orar/" target="_blank" class="btn btn-info">
+                    Vezi mai mult..
+                </a>
             </div>
         </div>
 

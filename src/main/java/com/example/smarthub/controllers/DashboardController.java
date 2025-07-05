@@ -23,27 +23,21 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String dashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        model.addAttribute("username", userDetails.getUsername());
+        User loggedUser = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+        boolean isProfessor = false;
+        boolean isStudent = false;
+
+        if (loggedUser != null) {
+            isProfessor = loggedUser.getRoles().stream().anyMatch(r -> r.name().equals("PROFESSOR"));
+            isStudent = loggedUser.getRoles().stream().anyMatch(r -> r.name().equals("STUDENT"));
+        }
+
+        model.addAttribute("username", loggedUser.getEmail());
+        model.addAttribute("isProfessor", isProfessor);
+        model.addAttribute("isStudent", isStudent);
+
         return "index";
     }
 
-    @GetMapping("/students")
-    public String studentsPage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        // Tot user-ul logat
-        String email = userDetails.getUsername();
-        User currentUser = userRepository.findByEmail(email).orElseThrow();
 
-        // Verifică dacă e ADMIN
-        boolean isAdmin = currentUser.getRoles().contains(Role.ADMIN);
-        model.addAttribute("isAdmin", isAdmin);
-
-        // Trimite toți userii cu rol STUDENT
-        List<User> students = userRepository.findAll().stream()
-                .filter(u -> u.getRoles().contains(Role.STUDENT))
-                .collect(Collectors.toList());
-
-        model.addAttribute("students", students);
-
-        return "students";
-    }
 }

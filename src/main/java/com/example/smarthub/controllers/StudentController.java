@@ -2,18 +2,18 @@ package com.example.smarthub.controllers;
 
 import com.example.smarthub.models.User;
 import com.example.smarthub.repositories.UserRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/students")
+@Controller
 public class StudentController {
 
     private final UserRepository userRepository;
@@ -22,33 +22,42 @@ public class StudentController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping
-    public String getStudents(Model model, Pageable pageable) {
+    @GetMapping("/students")
+    public String getStudents(Model model,
+                              @RequestParam(defaultValue = "0") int page,
+                              @AuthenticationPrincipal UserDetails userDetails) {
+
         int pageSize = 3;
-        int currentPage = pageable.getPageNumber();
 
         List<User> allStudents = userRepository.findAll().stream()
                 .filter(user -> user.getRoles().stream()
                         .anyMatch(role -> role.name().equals("STUDENT")))
                 .collect(Collectors.toList());
 
-        int start = currentPage * pageSize;
+        int start = page * pageSize;
         int end = Math.min(start + pageSize, allStudents.size());
 
         List<User> studentsPage = allStudents.subList(start, end);
 
-        Page<User> page = new PageImpl<>(studentsPage, PageRequest.of(currentPage, pageSize), allStudents.size());
+        Page<User> pageObj = new PageImpl<>(
+                studentsPage,
+                PageRequest.of(page, pageSize),
+                allStudents.size()
+        );
 
-        model.addAttribute("studentsPage", page);
+        // VERIFICĂ DACĂ USERUL LOGAT E ADMIN
+        boolean isAdmin = false;
+        if (userDetails != null) {
+            User loggedUser = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+            if (loggedUser != null) {
+                isAdmin = loggedUser.getRoles().stream()
+                        .anyMatch(role -> role.name().equals("ADMIN"));
+            }
+        }
 
-        // Exemplu: presupunem că doar ADMIN poate edita/șterge — setează după cum ai logică
-        model.addAttribute("isAdmin", true);
+        model.addAttribute("studentsPage", pageObj);
+        model.addAttribute("isAdmin", isAdmin);
 
         return "students";
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable Long id) {
-        userRepository.deleteById(id);
     }
 }

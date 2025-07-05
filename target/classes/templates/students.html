@@ -6,15 +6,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            background: #f8f9fa;
-        }
+        body { background: #f8f9fa; }
     </style>
 </head>
 <body class="bg-light">
 
 <div class="container mt-5">
-    <!-- Buton Pagina Principală -->
     <div class="mb-4">
         <a href="/dashboard" class="btn btn-light border rounded-pill px-4 py-2 d-inline-flex align-items-center">
             <i class="fas fa-home me-2 text-primary"></i>
@@ -24,21 +21,20 @@
 
     <h2 class="text-center mb-4">📚 Lista Studenților</h2>
 
-    <!-- Tabel Studenți -->
     <table class="table table-bordered table-striped shadow-sm bg-white">
         <thead class="table-dark">
         <tr>
-            <th>ID</th>
             <th>Email</th>
-            <th>Roluri</th>
+            <th>Rol</th>
             <th th:if="${isAdmin}">Acțiuni</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="student : ${students}">
-            <td th:text="${student.id}"></td>
-            <td th:text="${student.email}"></td>
-            <td th:text="${student.roles}"></td>
+        <tr th:each="student : ${studentsPage.content}">
+            <td th:text="${student.email}">Email</td>
+            <td>
+                <span th:each="role : ${student.roles}" th:text="${role}">Rol</span>
+            </td>
             <td th:if="${isAdmin}">
                 <a th:href="@{'/students/edit/' + ${student.id}}" class="btn btn-sm btn-primary">✏️ Editează</a>
                 <a th:href="@{'/students/delete/' + ${student.id}}" class="btn btn-sm btn-danger">🗑️ Șterge</a>
@@ -46,6 +42,22 @@
         </tr>
         </tbody>
     </table>
+
+    <nav th:if="${studentsPage.totalPages > 1}" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li th:classappend="${studentsPage.first} ? 'disabled'" class="page-item">
+                <a th:href="@{'/students?page=' + ${studentsPage.number - 1}}" class="page-link">« Înapoi</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, studentsPage.totalPages - 1)}"
+                th:classappend="${studentsPage.number == i} ? 'active'" class="page-item">
+                <a th:href="@{'/students?page=' + ${i}}" th:text="${i + 1}" class="page-link"></a>
+            </li>
+            <li th:classappend="${studentsPage.last} ? 'disabled'" class="page-item">
+                <a th:href="@{'/students?page=' + ${studentsPage.number + 1}}" class="page-link">Înainte »</a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
 
 </body>
