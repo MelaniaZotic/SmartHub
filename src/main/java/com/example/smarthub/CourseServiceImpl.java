@@ -1,4 +1,4 @@
-package com.example.smarthub.services;
+package com.example.smarthub;
 
 import com.example.smarthub.models.Course;
 import com.example.smarthub.models.User;

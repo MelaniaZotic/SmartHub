@@ -1,12 +1,12 @@
-package com.example.smarthub;
+package com.example.smarthub.services;
 
 
 
+import com.example.smarthub.UserService;
 import com.example.smarthub.enums.Role;
 import com.example.smarthub.models.User;
 import com.example.smarthub.models.dtos.RegisterRequest;
 import com.example.smarthub.repositories.UserRepository;
-import com.example.smarthub.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;

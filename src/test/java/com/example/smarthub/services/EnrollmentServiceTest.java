@@ -1,6 +1,6 @@
 package com.example.smarthub.services;
 
-import com.example.smarthub.enums.EnrollmentStatus;
+import com.example.smarthub.EnrollmentServiceImpl;
 import com.example.smarthub.models.Course;
 import com.example.smarthub.models.Enrollment;
 import com.example.smarthub.repositories.EnrollmentRepository;

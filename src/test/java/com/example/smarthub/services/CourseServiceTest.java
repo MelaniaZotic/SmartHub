@@ -1,10 +1,10 @@
-package com.example.smarthub;
+package com.example.smarthub.services;
 
+import com.example.smarthub.CourseServiceImpl;
 import com.example.smarthub.models.Course;
 import com.example.smarthub.models.User;
 import com.example.smarthub.repositories.CourseRepository;
 import com.example.smarthub.repositories.UserRepository;
-import com.example.smarthub.services.CourseServiceImpl;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.security.core.Authentication;

@@ -3,7 +3,7 @@ package com.example.smarthub.controllers;
 import com.example.smarthub.models.Course;
 import com.example.smarthub.models.User;
 import com.example.smarthub.repositories.UserRepository;
-import com.example.smarthub.services.CourseService;
+import com.example.smarthub.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
