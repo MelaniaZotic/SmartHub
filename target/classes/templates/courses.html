@@ -61,7 +61,8 @@
                    th:value="${keyword}">
             <button type="submit" class="btn btn-outline-primary">Caută</button>
         </form>
-        <a th:href="@{/courses/add}" class="btn btn-success btn-lg">➕ Adaugă Curs</a>
+        <a th:if="!${isStudent}" th:href="@{/courses/add}" class="btn btn-success btn-lg">➕ Adaugă Curs</a>
+
     </div>
 
     <div class="row g-4">

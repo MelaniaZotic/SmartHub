@@ -19,7 +19,8 @@
         </a>
     </div>
 
-    <h2 class="text-center mb-4">📚 Lista Studenților</h2>
+    <h2 class="text-center mb-4" th:text="${isStudent} ? '📚 Lista Profesorilor' : '📚 Lista Studenților'"></h2>
+
 
     <table class="table table-bordered table-striped shadow-sm bg-white">
         <thead class="table-dark">

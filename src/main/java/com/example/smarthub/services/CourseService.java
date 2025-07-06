@@ -11,4 +11,9 @@ public interface CourseService {
     Course updateCourse(Long id, Course course);
     void deleteCourse(Long id);
     List<Course> searchCourses(String keyword);
+
+    List<Course> getCoursesByProfessorId(Long professorId);
+    List<Course> getCoursesByStudentId(Long studentId);
+
+
 }

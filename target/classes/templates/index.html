@@ -49,7 +49,7 @@
     </form>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-5">
         <!-- Card Studenți -->
-        <div class="col">
+        <div class="col" th:if="${isProfessor or isAdmin}">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-user-graduate mb-3"></i>
                 <h5 class="card-title">Studenți</h5>
@@ -68,8 +68,8 @@
             </div>
         </div>
 
-        <!-- Card Profesori -->
-        <div class="col">
+        <!-- Card Profesori - doar pentru admin -->
+        <div class="col" th:if="${isAdmin}">
             <div class="card p-3 h-100 text-center">
                 <i class="fas fa-chalkboard-teacher mb-3"></i>
                 <h5 class="card-title">Profesori</h5>
@@ -77,6 +77,7 @@
                 <a th:href="@{/professors}" class="btn btn-warning">Descoperă profesorii</a>
             </div>
         </div>
+
 
         <!-- Card Note -->
         <!-- Card Note - doar pentru STUDENT -->
@@ -121,7 +122,18 @@
             </div>
         </div>
 
-<!--        &lt;!&ndash; Card Utilizatori (opțional, doar ADMIN) &ndash;&gt;-->
+        <!-- Card Înscrieri - doar pentru PROFESOR -->
+        <div class="col" th:if="${isProfessor or isAdmin}">
+            <div class="card p-3 h-100 text-center">
+                <i class="fas fa-clipboard-list mb-3"></i>
+                <h5 class="card-title">Înscrieri</h5>
+                <p class="card-text">Gestionează înscrierile studenților la cursurile tale.</p>
+                <a th:href="@{/enrollments}" class="btn btn-outline-success">Vezi înscrierile</a>
+            </div>
+        </div>
+
+
+        <!--        &lt;!&ndash; Card Utilizatori (opțional, doar ADMIN) &ndash;&gt;-->
 <!--        <div class="col">-->
 <!--            <div class="card p-3 h-100 text-center">-->
 <!--                <i class="fas fa-users-gear mb-3"></i>-->
