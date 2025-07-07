@@ -44,7 +44,11 @@
       <input type="email" class="form-control" id="email" name="email" required>
       <div class="error-text" id="emailError"></div>
     </div>
-
+    <div class="mb-3">
+      <label for="username" class="form-label">Nume utilizator</label>
+      <input type="text" class="form-control" id="username" name="username" required>
+      <div class="error-text" id="usernameError"></div>
+    </div>
     <div class="mb-3">
       <label for="password" class="form-label">Parolă</label>
       <input type="password" class="form-control" id="password" name="password" required>
@@ -72,15 +76,18 @@
     e.preventDefault();
 
     const email = e.target.email.value.trim();
+    const username = e.target.username.value.trim();
     const password = e.target.password.value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
     const emailError = document.getElementById("emailError");
+    const usernameError = document.getElementById("usernameError");
     const passwordError = document.getElementById("passwordError");
     const confirmError = document.getElementById("confirmError");
     const serverError = document.getElementById("serverError");
 
     emailError.textContent = '';
+    usernameError.textContent = '';
     passwordError.textContent = '';
     confirmError.textContent = '';
     serverError.style.display = "none";
@@ -91,6 +98,11 @@
     const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     if (!emailPattern.test(email)) {
       emailError.textContent = "Adresa de email nu este validă.";
+      valid = false;
+    }
+
+    if (username.length < 3) {
+      usernameError.textContent = "Numele de utilizator trebuie să aibă cel puțin 3 caractere.";
       valid = false;
     }
 
@@ -109,12 +121,12 @@
 
     try {
       const response = await fetch("http://localhost:8086/auth/register",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        mode: "cors"
-      });
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, username, password }),
+                mode: "cors"
+              });
 
       if (response.ok) {
         window.location.href = "/login?success";

@@ -36,7 +36,7 @@ public class GradeServiceImpl implements GradeService {
                     existing.setValue(grade.getValue());
                     existing.setDate(grade.getDate());
                     existing.setType(grade.getType());
-                    existing.setStudent(grade.getStudent());
+//                    existing.setStudent(grade.getStudent());
                     existing.setCourse(grade.getCourse());
                     return gradeRepository.save(existing);
                 }).orElse(null);

@@ -36,7 +36,7 @@ import java.util.List;
                 .map(existing -> {
                     existing.setStatus(enrollment.getStatus());
                     existing.setEnrollmentDate(enrollment.getEnrollmentDate());
-                    existing.setStudent(enrollment.getStudent());
+//                    existing.setStudent(enrollment.getStudent());
                     existing.setCourse(enrollment.getCourse());
                     return enrollmentRepository.save(existing);
                 }).orElse(null);

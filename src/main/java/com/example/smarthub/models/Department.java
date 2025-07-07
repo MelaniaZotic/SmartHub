@@ -20,6 +20,5 @@ public class Department {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    @OneToMany(mappedBy = "department")
-    private List<Professor> professors;
+
 }

@@ -41,7 +41,7 @@
 
     <!-- Buton Pagina Principală -->
     <div class="mb-4">
-        <a th:href="@{/}" class="btn btn-light shadow-sm border rounded-pill px-4 py-2 d-inline-flex align-items-center" style="transition: all 0.2s ease;">
+        <a th:href="@{/dashboard}" class="btn btn-light shadow-sm border rounded-pill px-4 py-2 d-inline-flex align-items-center" style="transition: all 0.2s ease;">
             <i class="fas fa-home me-2 text-primary"></i>
             <span class="fw-semibold">Pagina Principală</span>
         </a>
@@ -75,7 +75,8 @@
                     </p>
                     <p class="text-muted small" th:if="${course.description != null}" th:text="${course.description}">Descriere curs</p>
                 </div>
-                <div class="card-footer bg-transparent border-0 d-flex justify-content-between px-0">
+                <div class="card-footer bg-transparent border-0 d-flex justify-content-between px-0"
+                     th:if="${course.user.id == currentUserId}">
                     <a th:href="@{'/courses/edit/' + ${course.id}}" class="btn btn-outline-primary btn-sm">✏️ Editează</a>
                     <a th:href="@{'/courses/delete/' + ${course.id}}"
                        onclick="return confirm('Ești sigur că vrei să ștergi acest curs?')"

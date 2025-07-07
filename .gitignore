@@ -1,0 +1,14 @@
+/target/classes/com/example/smarthub/controllers/AdminUserController.class
+/target/classes/com/example/smarthub/controllers/AuthApiController.class
+/target/classes/com/example/smarthub/models/dtos/AuthRequest.class
+/target/classes/com/example/smarthub/models/dtos/AuthResponse.class
+/target/classes/com/example/smarthub/config/secret/JwtFilter.class
+/target/classes/com/example/smarthub/config/secret/JwtUtil.class
+/target/classes/templates/login.html
+/target/classes/com/example/smarthub/controllers/RedirectController.class
+/target/classes/templates/register.html
+/target/classes/com/example/smarthub/models/dtos/RegisterRequest.class
+/target/classes/com/example/smarthub/models/User.class
+/target/classes/com/example/smarthub/config/UserDetailsServiceImpl.class
+/target/classes/com/example/smarthub/repositories/UserRepository.class
+/target/classes/com/example/smarthub/services/UserService.class

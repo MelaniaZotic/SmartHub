@@ -1,19 +1,24 @@
 package com.example.smarthub.services;
 
-
-
 import com.example.smarthub.models.Course;
+import com.example.smarthub.models.User;
 import com.example.smarthub.repositories.CourseRepository;
+import com.example.smarthub.repositories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-    private final CourseRepository courseRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository) {
+    private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
+
+    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository) {
         this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -28,6 +33,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course createCourse(Course course) {
+        User currentUser = getCurrentUser();
+        if (currentUser == null) {
+            throw new RuntimeException("User not authenticated");
+        }
+        course.setUser(currentUser); // setează user-ul logat ca profesor
         return courseRepository.save(course);
     }
 
@@ -39,7 +49,7 @@ public class CourseServiceImpl implements CourseService {
                     existing.setDescription(course.getDescription());
                     existing.setCredits(course.getCredits());
                     existing.setSemester(course.getSemester());
-                    existing.setProfessor(course.getProfessor());
+                    // user-ul nu se schimbă!
                     return courseRepository.save(existing);
                 }).orElse(null);
     }
@@ -53,5 +63,18 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> searchCourses(String keyword) {
         return courseRepository.searchCourses(keyword);
     }
-}
 
+    /**
+     * Returnează User-ul logat (din SecurityContext)
+     */
+    private User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email;
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails) principal).getUsername();
+        } else {
+            email = principal.toString();
+        }
+        return userRepository.findByEmail(email).orElse(null);
+    }
+}
