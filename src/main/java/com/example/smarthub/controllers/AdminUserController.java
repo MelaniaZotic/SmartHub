@@ -1,6 +1,6 @@
 package com.example.smarthub.controllers;
 
-import com.example.smarthub.UserService;
+import com.example.smarthub.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

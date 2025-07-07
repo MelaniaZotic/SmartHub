@@ -1,8 +1,8 @@
 package com.example.smarthub.controllers;
 
-import com.example.smarthub.CourseService;
-import com.example.smarthub.EnrollmentService;
-import com.example.smarthub.UserService;
+import com.example.smarthub.services.CourseService;
+import com.example.smarthub.services.EnrollmentService;
+import com.example.smarthub.services.UserService;
 import com.example.smarthub.enums.Role;
 import com.example.smarthub.models.Course;
 import com.example.smarthub.models.Enrollment;

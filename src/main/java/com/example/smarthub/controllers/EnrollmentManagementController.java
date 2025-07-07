@@ -4,9 +4,11 @@ import com.example.smarthub.enums.EnrollmentStatus;
 import com.example.smarthub.enums.Role;
 import com.example.smarthub.models.Enrollment;
 import com.example.smarthub.models.User;
-import com.example.smarthub.CourseService;
-import com.example.smarthub.EnrollmentService;
-import com.example.smarthub.UserService;
+import com.example.smarthub.services.CourseService;
+import com.example.smarthub.services.EnrollmentService;
+import com.example.smarthub.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class EnrollmentManagementController {
     private final EnrollmentService enrollmentService;
     private final UserService userService;
     private final CourseService courseService;
+    private static final Logger logger = LoggerFactory.getLogger(EnrollmentManagementController.class);
+
 
     public EnrollmentManagementController(EnrollmentService enrollmentService,
                                           UserService userService,
@@ -51,6 +55,7 @@ public class EnrollmentManagementController {
     @PostMapping("/add")
     public String addEnrollment(@ModelAttribute("enrollment") Enrollment enrollment,
                                 @AuthenticationPrincipal UserDetails userDetails) {
+        logger.info("Showing add enrollment form");
         User professor = userService.getUserByEmail(userDetails.getUsername());
 
         if (professor == null || !professor.getRoles().contains(Role.PROFESSOR)) {
@@ -117,6 +122,7 @@ public class EnrollmentManagementController {
     @GetMapping
     public String listEnrollments(Model model,
                                   @RequestParam(value = "sort", required = false) String sort) {
+        logger.info("Listing all enrollments");
         List<Enrollment> enrollments = enrollmentService.getAllEnrollments();
 
         if ("course".equalsIgnoreCase(sort)) {

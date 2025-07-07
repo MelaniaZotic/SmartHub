@@ -1,15 +1,17 @@
-package com.example.smarthub;
+package com.example.smarthub.services;
 
 import com.example.smarthub.models.Course;
 import com.example.smarthub.models.User;
 import com.example.smarthub.repositories.CourseRepository;
 import com.example.smarthub.repositories.EnrollmentRepository;
 import com.example.smarthub.repositories.UserRepository;
+import com.example.smarthub.services.CourseService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import com.example.smarthub.models.Enrollment;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +21,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
-
+    private static final Logger logger = LoggerFactory.getLogger(CourseServiceImpl.class);
     private final EnrollmentRepository enrollmentRepository;
 
     public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository, EnrollmentRepository enrollmentRepository) {
@@ -30,11 +32,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> getAllCourses() {
+        logger.debug("Fetching all courses");
         return courseRepository.findAll();
     }
 
     @Override
     public Course getCourseById(Long id) {
+        logger.debug("Fetching course by id: {}", id);
         return courseRepository.findById(id).orElse(null);
     }
 
@@ -42,14 +46,18 @@ public class CourseServiceImpl implements CourseService {
     public Course createCourse(Course course) {
         User currentUser = getCurrentUser();
         if (currentUser == null) {
+            logger.error("No authenticated user found!");
+
             throw new RuntimeException("User not authenticated");
         }
-        course.setUser(currentUser); // setează user-ul logat ca profesor
+        course.setUser(currentUser);
         return courseRepository.save(course);
     }
 
     @Override
     public Course updateCourse(Long id, Course course) {
+        logger.info("Updating course id: {}", id);
+
         return courseRepository.findById(id)
                 .map(existing -> {
                     existing.setTitle(course.getTitle());

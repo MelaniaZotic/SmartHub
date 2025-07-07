@@ -1,4 +1,4 @@
-package com.example.smarthub;
+package com.example.smarthub.services;
 
 import com.example.smarthub.models.Grade;
 

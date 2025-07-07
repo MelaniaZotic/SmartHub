@@ -1,4 +1,4 @@
-package com.example.smarthub;
+package com.example.smarthub.services;
 
 import com.example.smarthub.enums.Role;
 import com.example.smarthub.models.User;
@@ -6,7 +6,8 @@ import com.example.smarthub.models.dtos.RegisterRequest;
 import com.example.smarthub.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class UserService {
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
     private final UserRepository userRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public UserService(UserRepository userRepo, PasswordEncoder encoder, UserRepository userRepository) {
         this.userRepo = userRepo;
@@ -27,16 +29,22 @@ public class UserService {
 
 
     public void registerUser(String username,String rawPw) {
+        logger.info("Registering new user with username: {}", username);
+
         User u = new User();
         //u.setUsername(username);
         u.setPassword(encoder.encode(rawPw));
         u.setRoles(Set.of(Role.STUDENT));
         u.setEnabled(false);
         userRepo.save(u);
+        logger.debug("User saved in repository");
+
     }
 
     /* aprobare cont de către admin */
     public void approveUser(Long id) {
+        logger.info("Approving user with id: {}", id);
+
         userRepo.findById(id).ifPresent(u -> {
             u.setEnabled(true);
             userRepo.save(u);

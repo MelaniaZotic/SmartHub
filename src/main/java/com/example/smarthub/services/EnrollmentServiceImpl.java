@@ -1,7 +1,8 @@
-package com.example.smarthub;
+package com.example.smarthub.services;
 
 import com.example.smarthub.models.Enrollment;
 import com.example.smarthub.repositories.EnrollmentRepository;
+import com.example.smarthub.services.EnrollmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

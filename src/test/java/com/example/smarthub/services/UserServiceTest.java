@@ -2,7 +2,6 @@ package com.example.smarthub.services;
 
 
 
-import com.example.smarthub.UserService;
 import com.example.smarthub.enums.Role;
 import com.example.smarthub.models.User;
 import com.example.smarthub.models.dtos.RegisterRequest;

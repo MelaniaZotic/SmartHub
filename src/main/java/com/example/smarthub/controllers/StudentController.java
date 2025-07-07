@@ -9,7 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class StudentController {
 
     private final UserRepository userRepository;
-
+    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
     public StudentController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -57,6 +58,8 @@ public class StudentController {
 
         int start = page * pageSize;
         int end = Math.min(start + pageSize, allUsers.size());
+        logger.debug("Calculated start: {}, end: {}", start, end);
+
         List<User> usersPage = allUsers.subList(start, end);
 
         Page<User> pageObj = new PageImpl<>(usersPage, PageRequest.of(page, pageSize), allUsers.size());

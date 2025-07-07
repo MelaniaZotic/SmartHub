@@ -1,6 +1,5 @@
 package com.example.smarthub.services;
 
-import com.example.smarthub.CourseServiceImpl;
 import com.example.smarthub.models.Course;
 import com.example.smarthub.models.User;
 import com.example.smarthub.repositories.CourseRepository;

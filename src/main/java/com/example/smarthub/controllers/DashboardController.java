@@ -7,18 +7,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class DashboardController {
 
     private final UserRepository userRepository;
-
+    private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
     public DashboardController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @GetMapping("/dashboard")
     public String dashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        logger.info("Dashboard accessed by {}", userDetails.getUsername());
+
         // Default values
         boolean isProfessor = false;
         boolean isStudent = false;
