@@ -1,4 +1,4 @@
-package com.example.smarthub.services;
+package com.example.smarthub;
 
 import com.example.smarthub.enums.Role;
 import com.example.smarthub.models.User;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -71,4 +72,21 @@ public class UserService {
     public List<User> getPendingUsers() {
         return userRepo.findByEnabledFalse();
     }
+
+    public List<User> getAllUsersWithRole(Role role) {
+        return userRepository.findAll()
+                .stream()
+                .filter(u -> u.getRoles().contains(role))
+                .toList();
+    }
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    public List<User> getAllStudents() {
+        return userRepository.findAll().stream()
+                .filter(u -> u.getRoles().contains(Role.STUDENT))
+                .collect(Collectors.toList());
+    }
+
 }

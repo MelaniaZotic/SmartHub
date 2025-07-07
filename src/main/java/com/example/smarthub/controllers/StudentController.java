@@ -29,35 +29,44 @@ public class StudentController {
 
         int pageSize = 3;
 
-        List<User> allStudents = userRepository.findAll().stream()
-                .filter(user -> user.getRoles().stream()
-                        .anyMatch(role -> role.name().equals("STUDENT")))
-                .collect(Collectors.toList());
+        User loggedUser = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+
+        boolean isAdmin = false;
+        boolean isProfessor = false;
+        boolean isStudent = false;
+
+        if (loggedUser != null) {
+            isAdmin = loggedUser.getRoles().stream().anyMatch(role -> role.name().equals("ADMIN"));
+            isProfessor = loggedUser.getRoles().stream().anyMatch(role -> role.name().equals("PROFESSOR"));
+            isStudent = loggedUser.getRoles().stream().anyMatch(role -> role.name().equals("STUDENT"));
+        }
+
+        // Decide ce listezi
+        List<User> allUsers;
+        if (isStudent) {
+            // Student vede doar profesori
+            allUsers = userRepository.findAll().stream()
+                    .filter(user -> user.getRoles().stream().anyMatch(r -> r.name().equals("PROFESSOR")))
+                    .collect(Collectors.toList());
+        } else {
+            // Profesor/Admin vede doar studenți
+            allUsers = userRepository.findAll().stream()
+                    .filter(user -> user.getRoles().stream().anyMatch(r -> r.name().equals("STUDENT")))
+                    .collect(Collectors.toList());
+        }
 
         int start = page * pageSize;
-        int end = Math.min(start + pageSize, allStudents.size());
+        int end = Math.min(start + pageSize, allUsers.size());
+        List<User> usersPage = allUsers.subList(start, end);
 
-        List<User> studentsPage = allStudents.subList(start, end);
-
-        Page<User> pageObj = new PageImpl<>(
-                studentsPage,
-                PageRequest.of(page, pageSize),
-                allStudents.size()
-        );
-
-        // VERIFICĂ DACĂ USERUL LOGAT E ADMIN
-        boolean isAdmin = false;
-        if (userDetails != null) {
-            User loggedUser = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
-            if (loggedUser != null) {
-                isAdmin = loggedUser.getRoles().stream()
-                        .anyMatch(role -> role.name().equals("ADMIN"));
-            }
-        }
+        Page<User> pageObj = new PageImpl<>(usersPage, PageRequest.of(page, pageSize), allUsers.size());
 
         model.addAttribute("studentsPage", pageObj);
         model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isStudent", isStudent);
+        model.addAttribute("isProfessor", isProfessor);
 
         return "students";
     }
+
 }

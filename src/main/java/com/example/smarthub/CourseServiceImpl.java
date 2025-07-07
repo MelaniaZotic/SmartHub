@@ -1,14 +1,18 @@
-package com.example.smarthub.services;
+package com.example.smarthub;
 
 import com.example.smarthub.models.Course;
 import com.example.smarthub.models.User;
 import com.example.smarthub.repositories.CourseRepository;
+import com.example.smarthub.repositories.EnrollmentRepository;
 import com.example.smarthub.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import com.example.smarthub.models.Enrollment;
+
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -16,9 +20,12 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository) {
+    private final EnrollmentRepository enrollmentRepository;
+
+    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository, EnrollmentRepository enrollmentRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.enrollmentRepository = enrollmentRepository;
     }
 
     @Override
@@ -68,6 +75,10 @@ public class CourseServiceImpl implements CourseService {
      * Returnează User-ul logat (din SecurityContext)
      */
     private User getCurrentUser() {
+        if (SecurityContextHolder.getContext() == null || SecurityContextHolder.getContext().getAuthentication() == null) {
+            return null;
+        }
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email;
         if (principal instanceof UserDetails) {
@@ -77,4 +88,21 @@ public class CourseServiceImpl implements CourseService {
         }
         return userRepository.findByEmail(email).orElse(null);
     }
+
+    public List<Course> getCoursesByProfessorId(Long professorId) {
+        return courseRepository.findAll()
+                .stream()
+                .filter(c -> c.getUser().getId().equals(professorId))
+                .toList();
+    }
+
+    @Override
+    public List<Course> getCoursesByStudentId(Long studentId) {
+        return enrollmentRepository.findByStudentId(studentId)
+                .stream()
+                .map(Enrollment::getCourse)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 }

@@ -12,7 +12,7 @@
     <div class="mb-4">
         <a th:href="@{/enrollments}" class="btn btn-light shadow-sm border rounded-pill px-4 py-2 d-inline-flex align-items-center" style="transition: all 0.2s ease;">
             <i class="fas fa-home me-2 text-primary"></i>
-            <span class="fw-semibold">Inapoi</span>
+            <span class="fw-semibold">Înapoi</span>
         </a>
     </div>
     <div class="row justify-content-center">
@@ -26,15 +26,15 @@
 
                         <div class="mb-3">
                             <label class="form-label">Student:</label>
-                            <select th:field="*{student}" class="form-select">
-                                <option th:each="s : ${students}" th:value="${s}" th:text="${s.name}">Student</option>
+                            <select th:field="*{student.id}" class="form-select" required>
+                                <option th:each="s : ${students}" th:value="${s.id}" th:text="${s.username}">Student</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Curs:</label>
-                            <select th:field="*{course}" class="form-select">
-                                <option th:each="c : ${courses}" th:value="${c}" th:text="${c.title}">Curs</option>
+                            <select th:field="*{course.id}" class="form-select" required>
+                                <option th:each="c : ${courses}" th:value="${c.id}" th:text="${c.title}">Curs</option>
                             </select>
                         </div>
 
@@ -45,7 +45,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Status:</label>
-                            <select th:field="*{status}" class="form-select">
+                            <select th:field="*{status}" class="form-select" required>
                                 <option th:each="st : ${statuses}" th:value="${st}" th:text="${st}">Status</option>
                             </select>
                         </div>

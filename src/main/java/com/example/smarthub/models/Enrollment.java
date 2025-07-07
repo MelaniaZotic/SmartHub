@@ -19,9 +19,9 @@ public class Enrollment {
     @Enumerated(EnumType.STRING)
     private EnrollmentStatus status;
 
-//    @ManyToOne
-//    @JoinColumn(name = "student_id")
-//    private Student student;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private User student;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -50,14 +50,6 @@ public class Enrollment {
     public void setStatus(EnrollmentStatus status) {
         this.status = status;
     }
-//
-//    public Student getStudent() {
-//        return student;
-//    }
-//
-//    public void setStudent(Student student) {
-//        this.student = student;
-//    }
 
     public Course getCourse() {
         return course;
@@ -65,5 +57,13 @@ public class Enrollment {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
     }
 }
