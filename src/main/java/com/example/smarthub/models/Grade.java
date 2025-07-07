@@ -20,10 +20,10 @@ public class Grade {
 
     @Enumerated(EnumType.STRING)
     private GradeType type; // MIDTERM, FINAL
-//
-//    @ManyToOne
-//    @JoinColumn(name = "student_id")
-//    private Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User student;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -61,13 +61,13 @@ public class Grade {
         this.type = type;
     }
 
-//    public Student getStudent() {
-//        return student;
-//    }
-//
-//    public void setStudent(Student student) {
-//        this.student = student;
-//    }
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
+    }
 
     public Course getCourse() {
         return course;

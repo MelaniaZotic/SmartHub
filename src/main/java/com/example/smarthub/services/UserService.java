@@ -91,6 +91,7 @@ public class UserService {
         return userRepository.findByEmail(email).orElse(null);
     }
 
+
     public List<User> getAllStudents() {
         return userRepository.findAll().stream()
                 .filter(u -> u.getRoles().contains(Role.STUDENT))

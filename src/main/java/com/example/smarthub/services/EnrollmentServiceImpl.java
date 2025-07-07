@@ -15,6 +15,10 @@ import java.util.List;
         this.enrollmentRepository = enrollmentRepository;
     }
 
+    public List<Enrollment> getEnrollmentsByCourseId(Long courseId) {
+        return enrollmentRepository.findByCourseId(courseId);
+    }
+
     @Override
     public List<Enrollment> getAllEnrollments() {
         return enrollmentRepository.findAll();

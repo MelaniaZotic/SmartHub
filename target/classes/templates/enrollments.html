@@ -41,6 +41,15 @@
             <option value="date" th:selected="${sort == 'date'}">Dată înscriere</option>
         </select>
         <button type="submit" class="btn btn-outline-primary">🔍 Sortează</button>
+
+        <select name="courseId" class="form-select me-2" style="max-width: 250px;">
+            <option value="">-- Toate cursurile --</option>
+            <option th:each="c : ${courses}" th:value="${c.id}"
+                    th:text="${c.title}"
+                    th:selected="${courseId == c.id}">Curs</option>
+        </select>
+
+        <button type="submit" class="btn btn-outline-primary">🔍 Filtrează</button>
     </form>
 
 
@@ -48,21 +57,59 @@
     <table class="table table-bordered table-striped bg-white shadow-sm">
         <thead class="table-dark">
         <tr>
-            <th>ID</th>
+<!--            <th>ID</th>-->
             <th>Student</th>
             <th>Curs</th>
             <th>Dată înscriere</th>
             <th>Status</th>
+            <th>Notă</th>
             <th>Acțiuni</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="en : ${enrollments}">
-            <td th:text="${en.id}">1</td>
             <td th:text="${en.student.username}">Student</td>
             <td th:text="${en.course.title}">Curs</td>
             <td th:text="${en.enrollmentDate}">2025-06-01</td>
             <td th:text="${en.status}">Activ</td>
+
+            <!-- COLOANA NOTĂ -->
+            <td>
+                <!-- Dacă există: arată formular de editare -->
+                <form th:if="${en.grade != null}"
+                      th:action="@{'/grades/edit/' + ${en.grade.id}}" method="post"
+                      class="d-flex align-items-center">
+
+                    <input type="hidden" name="studentId" th:value="${en.student.id}" />
+                    <input type="hidden" name="courseId" th:value="${en.course.id}" />
+
+                    <select name="value" class="form-select form-select-sm me-2" style="width: auto;">
+                        <option th:each="i : ${#numbers.sequence(1,10)}"
+                                th:value="${i}"
+                                th:text="${i}"
+                                th:selected="${i == en.grade.value}"></option>
+                    </select>
+
+                    <button type="submit" class="btn btn-sm btn-warning">✏️</button>
+                </form>
+
+                <!-- Dacă nu există: arată formular de adăugare -->
+                <form th:if="${en.grade == null}"
+                      th:action="@{/grades/add}" method="post"
+                      class="d-flex align-items-center">
+
+                    <input type="hidden" name="studentId" th:value="${en.student.id}" />
+                    <input type="hidden" name="courseId" th:value="${en.course.id}" />
+
+                    <select name="value" class="form-select form-select-sm me-2" style="width: auto;">
+                        <option th:each="i : ${#numbers.sequence(1,10)}"
+                                th:value="${i}" th:text="${i}"></option>
+                    </select>
+
+                    <button type="submit" class="btn btn-sm btn-success">💾</button>
+                </form>
+            </td>
+
             <td>
                 <a th:href="@{'/enrollments/edit/' + ${en.id}}" class="btn btn-sm btn-primary">✏️ Editează</a>
                 <a th:href="@{'/enrollments/delete/' + ${en.id}}"
@@ -70,7 +117,6 @@
                    onclick="return confirm('Ești sigur?')">🗑️ Șterge</a>
             </td>
         </tr>
-
         </tbody>
     </table>
 

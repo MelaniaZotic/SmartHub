@@ -26,16 +26,16 @@
         <thead class="table-dark">
         <tr>
             <th>Email</th>
-            <th>Rol</th>
+<!--            <th>Rol</th>-->
             <th th:if="${isAdmin}">Acțiuni</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="student : ${studentsPage.content}">
             <td th:text="${student.email}">Email</td>
-            <td>
-                <span th:each="role : ${student.roles}" th:text="${role}">Rol</span>
-            </td>
+<!--            <td>-->
+<!--                <span th:each="role : ${student.roles}" th:text="${role}">Rol</span>-->
+<!--            </td>-->
             <td th:if="${isAdmin}">
                 <a th:href="@{'/students/edit/' + ${student.id}}" class="btn btn-sm btn-primary">✏️ Editează</a>
                 <a th:href="@{'/students/delete/' + ${student.id}}" class="btn btn-sm btn-danger">🗑️ Șterge</a>

@@ -2,8 +2,11 @@ package com.example.smarthub.controllers;
 
 import com.example.smarthub.enums.EnrollmentStatus;
 import com.example.smarthub.enums.Role;
+import com.example.smarthub.models.Course;
 import com.example.smarthub.models.Enrollment;
 import com.example.smarthub.models.User;
+import com.example.smarthub.repositories.GradeRepository;
+import com.example.smarthub.repositories.UserRepository;
 import com.example.smarthub.services.CourseService;
 import com.example.smarthub.services.EnrollmentService;
 import com.example.smarthub.services.UserService;
@@ -25,15 +28,19 @@ public class EnrollmentManagementController {
     private final EnrollmentService enrollmentService;
     private final UserService userService;
     private final CourseService courseService;
+    private final UserRepository userRepository;
+    private final GradeRepository gradeRepository;
     private static final Logger logger = LoggerFactory.getLogger(EnrollmentManagementController.class);
 
 
     public EnrollmentManagementController(EnrollmentService enrollmentService,
                                           UserService userService,
-                                          CourseService courseService) {
+                                          CourseService courseService, UserRepository userRepository, GradeRepository gradeRepository) {
         this.enrollmentService = enrollmentService;
         this.userService = userService;
         this.courseService = courseService;
+        this.userRepository = userRepository;
+        this.gradeRepository = gradeRepository;
     }
 
     @GetMapping("/add")
@@ -119,11 +126,23 @@ public class EnrollmentManagementController {
         return "redirect:/enrollments";
     }
 
+
     @GetMapping
     public String listEnrollments(Model model,
-                                  @RequestParam(value = "sort", required = false) String sort) {
-        logger.info("Listing all enrollments");
-        List<Enrollment> enrollments = enrollmentService.getAllEnrollments();
+                                  @RequestParam(value = "sort", required = false) String sort,
+                                  @RequestParam(value = "courseId", required = false) Long courseId,
+                                  @AuthenticationPrincipal UserDetails userDetails) {
+
+        logger.info("Listing enrollments");
+
+        List<Enrollment> enrollments;
+
+        if (courseId != null) {
+            logger.info("Filtering enrollments by courseId = {}", courseId);
+            enrollments = enrollmentService.getEnrollmentsByCourseId(courseId);
+        } else {
+            enrollments = enrollmentService.getAllEnrollments();
+        }
 
         if ("course".equalsIgnoreCase(sort)) {
             enrollments.sort(Comparator.comparing(e -> e.getCourse().getTitle(), String.CASE_INSENSITIVE_ORDER));
@@ -133,11 +152,25 @@ public class EnrollmentManagementController {
             enrollments.sort(Comparator.comparing(Enrollment::getEnrollmentDate));
         }
 
+        // ✅ LEAGĂ NOTA (Grade) la Enrollment:
+        for (Enrollment en : enrollments) {
+            gradeRepository.findByStudentIdAndCourseId(
+                    en.getStudent().getId(),
+                    en.getCourse().getId()
+            ).ifPresent(en::setGrade);
+        }
+
+        // 🔑 Populează cursurile profesorului pentru filtrare:
+        User loggedUser = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        List<Course> courses = courseService.getCoursesByProfessorId(loggedUser.getId());
+
         model.addAttribute("enrollments", enrollments);
         model.addAttribute("sort", sort);
+        model.addAttribute("courseId", courseId);
+        model.addAttribute("courses", courses);
+
         return "enrollments";
     }
-
 
 
 }

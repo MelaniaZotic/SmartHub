@@ -19,8 +19,11 @@ public class Enrollment {
     @Enumerated(EnumType.STRING)
     private EnrollmentStatus status;
 
+    @Transient
+    private Grade grade;
+
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "user_id")
     private User student;
 
     @ManyToOne
@@ -65,5 +68,12 @@ public class Enrollment {
 
     public void setStudent(User student) {
         this.student = student;
+    }
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 }
